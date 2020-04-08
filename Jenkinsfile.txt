@@ -83,7 +83,7 @@ pipeline {
         }
     }
     
-    stage ("Delivery"){
+    /* stage ("Delivery"){
         steps{
             dir('rest_api'){
                 script{
@@ -113,6 +113,6 @@ pipeline {
   	failure {
   		slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) - ${GIT_BRANCH}")
   	}
-  }
+  }*/
   
 }
