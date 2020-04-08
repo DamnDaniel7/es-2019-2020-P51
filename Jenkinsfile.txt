@@ -82,37 +82,5 @@ pipeline {
             }
         }
     }
-    
-    /* stage ("Delivery"){
-        steps{
-            dir('rest_api'){
-                script{
-                    def remote = [:]
-                    remote.name = 'test'
-                    remote.host = '192.168.160.67'
-                    remote.user = 'tqs'
-                    remote.password = 'veka.mele.77'
-                    remote.allowAnyHosts = true
-                    sshPut remote: remote, from: 'Dockerfile', into: '.'
-                    sshCommand remote: remote, command: "docker stop rest_api"
-                    sshCommand remote: remote, command: "docker rm rest_api"
-                    sshCommand remote: remote, command: "docker rmi rest_api"
-                    sshCommand remote: remote, command: "docker build -t rest_api ."
-                    sshCommand remote: remote, command: "docker run -d -p 8081:8080 --env DB_USER=tqs19-105 --env DB_PASSWORD=grupotqs105 --name rest_api rest_api"
-                }
-            }
-        }
-    }
-    
   }
-
-  post {
-  	success {
-  		slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) - ${GIT_BRANCH}")
-  	}
-  	failure {
-  		slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) - ${GIT_BRANCH}")
-  	}
-  }*/
-  
 }
