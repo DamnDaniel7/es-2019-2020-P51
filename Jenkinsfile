@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy') {
            steps {
                 echo 'Deploy'
-                sshagent (credentials: ['myuser-myserver-ssh-access']) {
+                sshagent (credentials: ['esp51v2']) {
                   sh "ssh -o StrictHostKeyChecking=no esp51v2@myserver uname -a"
                }
 
