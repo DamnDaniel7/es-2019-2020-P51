@@ -6,7 +6,7 @@ pipeline {
    stages {
       stage('Build') {
          steps {
-            // Get some code from a GitHub repository
+            // ~eWd<<:4y#[znWBH
             git 'https://github.com/DamnDaniel7/es-2019-2020-P51.git'
             git branch: "javaee8", url: 'https://github.com/DamnDaniel7/es-2019-2020-P51.git'
             // Run Maven on a Unix agent.
@@ -28,6 +28,10 @@ pipeline {
         stage('Deploy') {
            steps {
                 echo 'Deploy'
+                sshagent (credentials: ['myuser-myserver-ssh-access']) {
+                  sh "ssh -o StrictHostKeyChecking=no esp51v2@myserver uname -a"
+               }
+
             }
         }
      
