@@ -1,10 +1,11 @@
 pipeline {
-   agent {
-       docker 'maven:3'
-   }
-
+   
+   agent none
    stages {
       stage('Build') {
+         agent {
+             docker 'maven:3'
+         }
          steps {
             // ~eWd<<:4y#[znWBH
             git 'https://github.com/DamnDaniel7/es-2019-2020-P51.git'
