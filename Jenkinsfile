@@ -27,6 +27,7 @@ pipeline {
         }
         
         stage('Deploy') {
+           agent none
            steps {
                 echo 'Deploy'
                 sshagent (credentials: ['esp51v2']) {
