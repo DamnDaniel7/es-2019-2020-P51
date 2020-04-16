@@ -4,7 +4,7 @@ RUN git clone --single-branch --branch javaee8 https://github.com/DamnDaniel7/es
 
 FROM maven:3.5-jdk-8-alpine
 WORKDIR /app
-RUN cd es-2019-2020-P51/Test &&  mvn install
+RUN ls
 
 FROM openjdk:8-jre-alpine
 WORKDIR /app
