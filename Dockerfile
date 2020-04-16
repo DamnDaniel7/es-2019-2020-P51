@@ -4,7 +4,6 @@ RUN git clone --single-branch --branch javaee8 https://github.com/DamnDaniel7/es
 
 FROM maven:3.5-jdk-8-alpine
 WORKDIR /app
-COPY --from=clone /app/spring-petclinic /app
 RUN cd Test &&  mvn install
 
 FROM openjdk:8-jre-alpine
