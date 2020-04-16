@@ -1,5 +1,5 @@
 # Use the official image as a parent image.
-FROM node:current-slim
+FROM ubuntu:lastest
 
 # Set the working directory.
 WORKDIR /usr/src/app
@@ -11,7 +11,7 @@ COPY Test .
 RUN npm install
 
 # Inform Docker that the container is listening on the specified port at runtime.
-EXPOSE 8080
+EXPOSE 48080
 
 # Run the specified command within the container.
 CMD [ "cd", "Test" ]
