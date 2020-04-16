@@ -4,7 +4,10 @@ pipeline {
    stages {
       stage('Build') {
          agent {
-             docker 'maven:3'
+            docker{
+                image 'maven:3-alpine'
+                args '-v $HOME/.m2:/root/.m2'
+             }
          }
          steps {
             // ~eWd<<:4y#[znWBH
