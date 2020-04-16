@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY Test .
 
 # Run the command inside your image filesystem.
-RUN npm install
+RUN ls
 
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 48080
