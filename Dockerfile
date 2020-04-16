@@ -5,6 +5,8 @@ FROM maven:3-alpine
 COPY Test .
 
 # Run the command inside your image filesystem.
+RUN cd home
+
 RUN ls
 
 # Inform Docker that the container is listening on the specified port at runtime.
