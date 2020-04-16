@@ -1,20 +1,11 @@
-# Use the official image as a parent image.
-FROM maven:3-alpine
-
-# Set the working directory.
+FROM alpine/git as clone (1)
 WORKDIR /app
+RUN git clone https://github.com/spring-projects/spring-petclinic.git
 
-# Copy the file from your host to your current location.
-COPY Test .
+FROM maven:3.5-jdk-8-alpine as build (2)
+WORKDIR /app
+COPY --from=clone /app/spring-petclinic /app (3)
+RUN mvn install
 
-# Run the command inside your image filesystem.
-RUN ls
-
-# Inform Docker that the container is listening on the specified port at runtime.
-EXPOSE 48080
-
-# Run the specified command within the container.
-CMD [ "mvn"]
-
-# Copy the rest of your app's source code from your host to your image filesystem.
-CMD ["ls"]
+FROM openjdk:8-jre-alpine
+WORKDIR /app
