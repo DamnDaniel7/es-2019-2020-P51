@@ -14,7 +14,7 @@ RUN ls
 EXPOSE 48080
 
 # Run the specified command within the container.
-CMD [ "mvn", "-Dmaven.test.failure.ignore=true","clean","package"]
+CMD [ "mvn"]
 
 # Copy the rest of your app's source code from your host to your image filesystem.
 CMD ["ls"]
