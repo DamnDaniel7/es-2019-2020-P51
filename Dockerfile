@@ -1,8 +1,5 @@
 # Use the official image as a parent image.
-FROM ubuntu:latest
-
-# Set the working directory.
-WORKDIR /usr/src/app
+FROM maven:3-alpine
 
 # Copy the file from your host to your current location.
 COPY Test .
