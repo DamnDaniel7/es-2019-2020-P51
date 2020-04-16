@@ -3,7 +3,12 @@ pipeline {
    agent any
    stages {
       stage('Build') {
-         
+         agent {
+            docker{
+                image 'maven:3-alpine'
+                args '-v $HOME/.m2:/root/.m2'
+             }
+         }
          steps {
             // ~eWd<<:4y#[znWBH
             git 'https://github.com/DamnDaniel7/es-2019-2020-P51.git'
