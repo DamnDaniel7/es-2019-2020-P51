@@ -1,5 +1,5 @@
 # Use the official image as a parent image.
-FROM ubuntu:lastest
+FROM ubuntu:latest
 
 # Set the working directory.
 WORKDIR /usr/src/app
