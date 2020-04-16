@@ -34,8 +34,8 @@ pipeline {
            steps {
                 echo 'Deploy'
                 sshagent (credentials: ['esp51v2']) {
-                  //sh "ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 uname -a"
-                  sh "mvn"
+                  sh "ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 uname -a"
+                  //sh "mvn"
                }
 
             }
