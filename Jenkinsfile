@@ -36,6 +36,8 @@ pipeline {
                 sshagent (credentials: ['esp51v2']) {
                    sh '''
                         scp Dockerfile esp51@192.168.160.103:~
+                        scp Test/target/Test-1.0-SNAPSHOT.war  esp51@192.168.160.103:~
+
 
                    '''
                  // sh "ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 uname -a"
