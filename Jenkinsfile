@@ -38,7 +38,7 @@ pipeline {
                         scp Dockerfile esp51@192.168.160.103:~
                         scp Test/target/Test-1.0-SNAPSHOT.war  esp51@192.168.160.103:~
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 "docker build -t esp51javaee8 ."
-                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker stop Esp51Server && docker rm Esp51Server || echo "No container up. Continue"
+                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker rm -f Esp51Server || echo "No container up. Continue"
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker run -d -p 8080:8080 --name Esp51Server esp51javaee8
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 rm Dockerfile
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 rm Test-1.0-SNAPSHOT.war
