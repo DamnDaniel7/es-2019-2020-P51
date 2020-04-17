@@ -15,7 +15,7 @@ pipeline {
             git branch: "javaee8", url: 'https://github.com/DamnDaniel7/es-2019-2020-P51.git'
             // Run Maven on a Unix agent.
            
-          //  sh "cd Test && mvn -Dmaven.test.failure.ignore=true clean package"
+            sh "cd Test && mvn -Dmaven.test.failure.ignore=true clean package"
 
             // To run Maven on a Windows agent, use
             // bat "mvn -Dmaven.test.failure.ignore=true clean package"
