@@ -34,7 +34,7 @@ pipeline {
            steps {
                 echo 'Deploy'
                 sshagent (credentials: ['esp51v2']) {
-                   ssh '''
+                   sh '''
                         scp Dockerfile esp51@192.168.160.103:~
 
                    '''
