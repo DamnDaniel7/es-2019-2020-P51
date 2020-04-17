@@ -1,4 +1,4 @@
-FROM maven:3.5-jdk-8-alpine
-WORKDIR /app
-COPY Test /app
-RUN mvn install
+FROM payara/server-full
+
+COPY Test/target/Test-1.0-SNAPSHOT.war $DEPLOY_DIR/test.war 
+
