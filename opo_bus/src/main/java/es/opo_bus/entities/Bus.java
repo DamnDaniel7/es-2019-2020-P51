@@ -14,8 +14,10 @@ public class Bus {
     @OneToMany(mappedBy = "bus")
     private List<Records> recordsList;
 
+    public Bus(){}
 
-    public Bus() {
+    public Bus(String busID) {
+        this.busID = busID;
     }
 
     public String getBusID() {
@@ -32,5 +34,10 @@ public class Bus {
 
     public void setRecordsList(List<Records> recordsList) {
         this.recordsList = recordsList;
+    }
+
+    @Override
+    public String toString() {
+        return busID;
     }
 }

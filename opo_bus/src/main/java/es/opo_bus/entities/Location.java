@@ -18,6 +18,15 @@ public class Location {
     @OneToMany(mappedBy = "location")
     List<Records> recordsList;
 
+    public Location(){}
+
+    public Location(String locationId, String head, String longitude, String latitude) {
+        this.locationId = locationId;
+        this.head = head;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
     public String getLocationId() {
         return locationId;
     }
