@@ -1,18 +1,21 @@
 package es.opo_bus.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Bus {
+public class Bus implements Serializable {
 
     @Id
     private String busID;
 
-    @OneToMany(mappedBy = "bus")
-    private List<Records> recordsList;
+    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Record> recordsList = new ArrayList<>();
 
     public Bus(){}
 
@@ -28,11 +31,11 @@ public class Bus {
         this.busID = busID;
     }
 
-    public List<Records> getRecordsList() {
+    public List<Record> getRecordsList() {
         return recordsList;
     }
 
-    public void setRecordsList(List<Records> recordsList) {
+    public void setRecordsList(List<Record> recordsList) {
         this.recordsList = recordsList;
     }
 
