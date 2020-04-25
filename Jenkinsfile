@@ -7,6 +7,7 @@ pipeline {
             docker{
                 image 'maven:3-alpine' 
                 args '-v $HOME/.m2:/root/.m2'
+                
              }
          }
          steps {
@@ -24,8 +25,9 @@ pipeline {
          
       }
       stage('Test') {
+            agent any
             steps {
-                echo 'Testing'
+                 sh "cd opo_bus && mvn test"
                }
         }
         
