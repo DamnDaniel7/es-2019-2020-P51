@@ -27,7 +27,9 @@ pipeline {
       stage('Test') {
             agent any
             steps {
+                  /*
                  sh "cd opo_bus && mvn test"
+                 */
                }
         }
         
