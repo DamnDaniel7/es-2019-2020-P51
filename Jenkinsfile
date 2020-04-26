@@ -46,7 +46,7 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 rm opo_bus-0.0.1-SNAPSHOT.jar
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 cd 
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 cd es-2019-2020-P51/opo_bus_frontend ; git pull origin master
-                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 cd es-2019-2020-P51/opo_bus_frontend ; "docker build -t es51-app ."
+                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 cd es-2019-2020-P51/opo_bus_frontend ; docker build -t es51-app .
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker rm -f es51-app || echo "No container up. Continue"
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker run -d -it -p 51880:80 es51-app
                    '''
