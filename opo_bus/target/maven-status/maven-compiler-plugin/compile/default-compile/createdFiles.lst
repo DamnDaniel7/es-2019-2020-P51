@@ -1,8 +1,0 @@
-es/opo_bus/repositories/RecordsRepository.class
-es/opo_bus/KafkaReceiver.class
-es/opo_bus/controllers/BusController.class
-es/opo_bus/OpoBusApplication.class
-es/opo_bus/repositories/BusRepository.class
-es/opo_bus/KafkaConsumerConfig.class
-es/opo_bus/entities/Record.class
-es/opo_bus/entities/Bus.class

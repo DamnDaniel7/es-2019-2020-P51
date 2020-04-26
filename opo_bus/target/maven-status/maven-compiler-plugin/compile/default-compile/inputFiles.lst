@@ -1,8 +1,0 @@
-/Users/danielteixeira/IdeaProjects/es-2019-2020-P51/opo_bus/src/main/java/es/opo_bus/OpoBusApplication.java
-/Users/danielteixeira/IdeaProjects/es-2019-2020-P51/opo_bus/src/main/java/es/opo_bus/entities/Record.java
-/Users/danielteixeira/IdeaProjects/es-2019-2020-P51/opo_bus/src/main/java/es/opo_bus/controllers/BusController.java
-/Users/danielteixeira/IdeaProjects/es-2019-2020-P51/opo_bus/src/main/java/es/opo_bus/KafkaReceiver.java
-/Users/danielteixeira/IdeaProjects/es-2019-2020-P51/opo_bus/src/main/java/es/opo_bus/repositories/BusRepository.java
-/Users/danielteixeira/IdeaProjects/es-2019-2020-P51/opo_bus/src/main/java/es/opo_bus/repositories/RecordsRepository.java
-/Users/danielteixeira/IdeaProjects/es-2019-2020-P51/opo_bus/src/main/java/es/opo_bus/KafkaConsumerConfig.java
-/Users/danielteixeira/IdeaProjects/es-2019-2020-P51/opo_bus/src/main/java/es/opo_bus/entities/Bus.java

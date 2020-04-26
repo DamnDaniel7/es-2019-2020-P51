@@ -16,7 +16,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     expose:
-      - "10222"
+      - "51080"
     ports:
       - "51080:80"
     networks:
