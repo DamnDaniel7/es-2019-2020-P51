@@ -16,7 +16,7 @@ pipeline {
             git branch: "master", url: 'https://github.com/DamnDaniel7/es-2019-2020-P51.git'
             // Run Maven on a Unix agent.
            
-            sh "cd opo_bus && mvn -Dcucumber.options='src/main/resources/list_all_buses_in_a_given_time.feature:1' -Dmaven.test.failure.ignore=true clean install"
+            sh "cd opo_bus && mvn -Dmaven.test.failure.ignore=true clean install"
 
             // To run Maven on a Windows agent, use
             // bat "mvn -Dmaven.test.failure.ignore=true clean package"
@@ -27,7 +27,7 @@ pipeline {
       stage('Test') {
             agent any
             steps {
-                 sh "cd opo_bus && mvn test"
+                 sh "cd opo_bus && mvn test -Dcucumber.options='src/main/resources/list_all_buses_in_a_given_time.feature:1'"
                }
         }
         stage('Deploy') {
