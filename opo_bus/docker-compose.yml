@@ -6,8 +6,6 @@ services:
     networks:
       - es51-network
     restart: always
-    ports:
-      - "51006:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=busporto51
       - MYSQL_DATABASE=OPOBUS
@@ -15,8 +13,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    expose:
-      - "51080"
     ports:
       - "51080:80"
     networks:
