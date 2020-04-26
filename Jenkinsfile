@@ -24,25 +24,27 @@ pipeline {
         
          
       }
+                        /*
+
       stage('Test') {
             agent any
             steps {
                  sh "cd opo_bus && mvn test"
                }
         }
-        
+                         */
+
         stage('Deploy') {
            agent any
            steps {
                 echo 'Deploy'
                 sshagent (credentials: ['esp51v2']) {
                    sh '''
-                        scp opo_bus/Dockerfile esp51@192.168.160.103:~
+                        scp opo_bus/docker-compose.yml esp51@192.168.160.103:~
                         scp opo_bus/target/opo_bus-0.0.1-SNAPSHOT.jar  esp51@192.168.160.103:~
-                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 "docker build -t esp51springboot ."
-                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker rm -f Esp51Server || echo "No container up. Continue"
-                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker run -d -p 51080:8080 --name Esp51Server esp51springboot
-                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 rm Dockerfile
+                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker-compose down || echo "No container up. Continue"
+                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker-compose up
+                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 rm docker-compose.yml
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 rm opo_bus-0.0.1-SNAPSHOT.jar
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 cd es-2019-2020-P51/opo_bus_frontend ; git pull origin master
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 "docker build -t es51-app es-2019-2020-P51/opo_bus_frontend/"
