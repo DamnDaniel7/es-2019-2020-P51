@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   mysql-service:
     image: mysql:latest
     container_name: es51-database
@@ -16,6 +15,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    expose:
+      - "10222"
     ports:
       - "51080:80"
     networks:
