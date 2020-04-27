@@ -27,7 +27,7 @@ pipeline {
       stage('Test') {
             agent any
             steps {
-                 sh "cd opo_bus && mvn test -Dcucumber.options='src/main/resources/list_all_buses_in_a_given_time.feature:1'"
+                 sh "cd opo_bus && mvn test -Dcucumber.options='src/main/resources/'"
                }
         }
         stage('Deploy') {
