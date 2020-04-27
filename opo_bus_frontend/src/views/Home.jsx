@@ -1,10 +1,33 @@
 import React from "react";
 import {Card, CardBody, CardHeader, CardTitle, Col, Row} from "reactstrap";
 import {Map, Marker, Popup, TileLayer} from "react-leaflet";
+import axios from "axios";
+import ReactTable from "react-table";
 
 class Home extends React.Component {
 
   state = {
+    bus: [],
+    colums: [
+      {
+        Header: '# ID',
+        accessor: 'id',
+        sortable: true,
+        minWidth: 40,
+        style: {
+          textAlign: "center",
+        }
+      }, {
+        Header: 'Records',
+        accessor: 'record',
+        sortable: true,
+        minWidth: 150,
+        style: {
+          textAlign: "center",
+          wordBreak: "break-all",
+        }
+      }
+    ],
     parkData: {
       "features": [
         {
@@ -37,6 +60,12 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
+    axios.get("http://192.168.160.103:51080/bus").then(res => {
+      this.setState({
+        bus: res.data
+      })
+      console.log(res.data)
+    })
   }
 
   render() {
@@ -66,6 +95,32 @@ class Home extends React.Component {
                       </Popup>
                     </Marker>
                   </Map>
+                  <br />
+                  <br />
+                  <ReactTable
+                      data={this.state.bus.map((bus,index) => {
+                        return({
+                          id: bus["busID"],
+                          record: (
+                              bus["recordsList"].map(record => {
+                                return(
+                                  <>
+                                    <span><b>Timestamp:</b> {record["timestamp"]} | <b>Speed:</b> {record["speed"]} | <b>Longitude:</b> {record["longitude"]} | <b>Latitude:</b> {record["latitude"]} | <b>Direção:</b> {record["head"]} |</span>
+                                    <br />
+                                    <hr/>
+                                  </>
+                                )
+                              })
+                          ),
+                        })
+                      })}
+                      noDataText="Sem Autocarros para mostrar"
+                      columns={this.state.colums}
+                      showPaginationTop={false}
+                      showPaginationBottom={false}
+                      resizable={false}
+                      className="-striped -highlight primary-pagination"
+                  />
                 </CardBody>
               </Card>
             </Col>
