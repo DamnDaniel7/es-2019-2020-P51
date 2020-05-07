@@ -57,16 +57,5 @@ public class AlarmController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "*")
-    @GetMapping("/createAlarm")
-    public void createAlarm(){
-        Alarm alarm = new Alarm();
-        alarm.setDate("03-04-2020");
-        alarm.setLatitude("152564");
-        alarm.setLongitude("6235");
-        alarm.setBus(busRepository.getOne("00000000-0000-0000-0000-000000002469"));
-        alarm.setUser(userRepository.getOne("luispaisalves"));
 
-        alarmRepository.saveAndFlush(alarm);
-    }
 }

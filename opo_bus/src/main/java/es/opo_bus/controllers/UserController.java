@@ -4,7 +4,6 @@ import es.opo_bus.entities.User;
 import es.opo_bus.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,12 +48,4 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @CrossOrigin(origins = "*")
-    @GetMapping("/createUser")
-    public void createUser(){
-       User user = new User();
-       user.setUsername("luispaisalves");
-       user.setPassword("123456");
-       userRepository.saveAndFlush(user);
-    }
 }
