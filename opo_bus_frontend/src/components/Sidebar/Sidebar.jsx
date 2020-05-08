@@ -1,11 +1,8 @@
 import React from "react";
 import {Link, NavLink} from "react-router-dom";
 
-import PerfectScrollbar from "perfect-scrollbar";
-
 import {Nav} from "reactstrap";
 
-let ps;
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -17,19 +14,8 @@ class Sidebar extends React.Component {
   }
 
   componentDidMount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(this.refs.sidebar, {
-        suppressScrollX: true,
-        suppressScrollY: false
-      });
-    }
-    if(localStorage.getItem("taca_uaTHEME")==="light")
+    if(localStorage.getItem("opo_busTHEME")==="light")
       this.activateMode("light")
-  }
-  componentWillUnmount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps.destroy();
-    }
   }
 
   activateMode = mode => {
@@ -112,9 +98,10 @@ class Sidebar extends React.Component {
               if (prop.redirect || prop.sidebar === false) return null;
               return (
                 <li
-                  className={
-                    this.activeRoute(prop.path)
-                  }
+                    className={
+                      this.activeRoute(prop.path) +
+                      (prop.pro ? "active-pro" : "")
+                    }
                   key={key}
                 >
                   <NavLink
