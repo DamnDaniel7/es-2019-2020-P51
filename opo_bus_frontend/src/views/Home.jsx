@@ -1,13 +1,23 @@
 import React from "react";
 import {Card, CardBody, CardHeader, CardTitle, Col, Row} from "reactstrap";
 import {Map, Marker, Popup, TileLayer} from "react-leaflet";
-import axios from "axios";
 import ReactTable from "react-table";
+import L from 'leaflet'
+import axios from "axios";
+
+export const pointerIcon = new L.Icon({
+  iconUrl: require('assets/img/bus.png'),
+  iconRetinaUrl: require('assets/img/bus.png'),
+  iconAnchor: [5, 55],
+  popupAnchor: [10, -44],
+  iconSize: [30, 30],
+})
 
 class Home extends React.Component {
 
   state = {
     bus: [],
+    records: [],
     colums: [
       {
         Header: '# ID',
@@ -28,35 +38,6 @@ class Home extends React.Component {
         }
       }
     ],
-    parkData: {
-      "features": [
-        {
-          "type": "Feature",
-          "properties": {
-            "PARK_ID": 960,
-            "NAME": "Bearbrook Skateboard Park",
-            "DESCRIPTIO": "Flat asphalt surface, 5 components"
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [41.1497, -8.6213]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "PARK_ID": 1219,
-            "NAME": "Bob MacQuarrie Skateboard Park (SK8 Extreme Park)",
-            "DESCRIPTIO": "Flat asphalt surface, 10 components, City run learn to skateboard programs, City run skateboard camps in summer"
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [41.1497, -8.6213]
-          }
-        }
-      ]
-    },
-    activePark: null
   }
 
   componentDidMount(){
@@ -64,7 +45,11 @@ class Home extends React.Component {
       this.setState({
         bus: res.data
       })
-      console.log(res.data)
+    })
+    axios.get("http://192.168.160.103:51080/records").then(res => {
+      this.setState({
+        records: res.data
+      })
     })
   }
 
@@ -89,11 +74,17 @@ class Home extends React.Component {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     />
-                    <Marker position={[41.1497, -8.6213]}>
-                      <Popup>
-                        Teste Marcador e Popup <br /> Easily customizable.
-                      </Popup>
-                    </Marker>
+                    {
+                      this.state.records.map(record => {
+                        return(
+                          <Marker position={[record["latitude"], record["longitude"]]} icon={pointerIcon}>
+                            <Popup>
+                              ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]}
+                            </Popup>
+                          </Marker>
+                        )
+                      })
+                    }
                   </Map>
                   <br />
                   <br />
