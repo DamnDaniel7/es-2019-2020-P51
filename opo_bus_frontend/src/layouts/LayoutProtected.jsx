@@ -52,7 +52,7 @@ class Layout extends React.Component {
         return routes[parseInt(i)].name;
       }
     }
-    return "Think Twice";
+    return "OPOBUS Tracker";
   };
 
   getComponent = () => {

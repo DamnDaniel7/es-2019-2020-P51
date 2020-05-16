@@ -23,7 +23,7 @@ const routes = [
   },
   {
     path: "/buses",
-    name: "Bus",
+    name: "Buses",
     sidebar: true,
     icon: "fas fa-bus",
     component: Buses,

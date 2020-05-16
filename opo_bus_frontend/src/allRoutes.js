@@ -6,17 +6,13 @@ const SecondaryLayout = lazy(() => import("layouts/Layout"));
 const Home = lazy(() => import("views/Home.jsx"));
 const Mapa = lazy(() => import("views/Mapa.jsx"));
 const Buses = lazy(() => import("views/Buses.jsx"));
+const Bus = lazy(() => import("views/Bus.jsx"));
 const Alarms = lazy(() => import("views/Alarms.jsx"));
 const Profile = lazy(() => import("views/Profile.jsx"));
 const Logout = lazy(() => import("views/Logout.jsx"));
 const Login = lazy(() => import("views/Login.jsx"));
 
 const routes = [
-  {
-    path: "/",
-    layout: MainLayout,
-    component: Home,
-  },
   {
     path: "/dashboard",
     layout: MainLayout,
@@ -31,6 +27,11 @@ const routes = [
     path: "/buses",
     layout: MainLayout,
     component: Buses,
+  },
+  {
+    path: "/bus/:id",
+    layout: MainLayout,
+    component: Bus,
   },
   {
     path: "/alarms",
@@ -58,7 +59,7 @@ const routes = [
     component: Login,
   },
   {
-    redirect: true, path: "/", to: "/login"
+    redirect: true, path: "/", to: "/dashboard"
   },
 ];
 export default routes;

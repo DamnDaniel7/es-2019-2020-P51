@@ -64,7 +64,7 @@ class Mapa extends React.Component {
     })
   }
 
-  addAlarm = (longitude, latitude, date, bus, username) => {
+  addAlarm(longitude, latitude, date, bus, username) {
     axios.post("http://192.168.160.103:51080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
       this.setState({
         records: res.data
@@ -91,7 +91,7 @@ class Mapa extends React.Component {
                         return(
                           <Marker position={[record["latitude"], record["longitude"]]} icon={pointerIcon}>
                             <Popup>
-                              ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]} | <Button onClick={this.addAlarm(record["latitude"], record["longitude"], record["timestamp"], record["recordsId"], this.props.username)}>Adicionar Alarme <i class="fas fa-bell"></i></Button>
+                              ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]} | <Button onClick={ () => this.addAlarm(record["latitude"], record["longitude"], record["timestamp"], record["recordsId"], this.props.username)}>Adicionar Alarme <i class="fas fa-bell"></i></Button>
                             </Popup>
                           </Marker>
                         )
