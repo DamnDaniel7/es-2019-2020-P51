@@ -33,7 +33,7 @@ pipeline {
       stage('Artifactory Deployment'){
          agent any
             steps {
-                 sh "cd opo_bus && mvn clean deploy"
+                 sh "cd opo_bus && mvn clean deploy -s .m2\settings.xml"
                }
       }
         stage('Deploy') {
