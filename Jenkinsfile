@@ -36,7 +36,7 @@ pipeline {
                  sh 'cd opo_bus && mvn clean deploy -s .m2/settings.xml'
                }
       }
-      stage('push'){
+      stage('Push Docker Images'){
            agent any
            steps {
                  sh 'docker rmi -f esp51-app'
