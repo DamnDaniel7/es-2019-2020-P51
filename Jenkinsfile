@@ -39,7 +39,7 @@ pipeline {
       stage('push'){
            agent any
            steps {
-                 sh '''cd opo_bus && docker build -t esp51springboot ./target/
+                 sh '''cd opo_bus && docker build -t esp51springboot .
                        cd ../opo_bus_frontend/ && docker build -t es51-app .
                        
                        docker push 192.168.160.99:5000/esp51springboot
