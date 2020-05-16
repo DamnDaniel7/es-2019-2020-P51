@@ -39,16 +39,17 @@ pipeline {
       stage('Push Docker Images'){
            agent any
            steps {
-                 sh 'docker rmi -f esp51-app || echo "No container up. Continue"'
-                 sh 'cd opo_bus_frontend/ && docker build -t esp51-app .'
-                 sh 'docker tag esp51-app 192.168.160.99:5000/esp51-app'
-                 sh 'docker push 192.168.160.99:5000/esp51-app'
+                 sh '''
+                       docker rmi -f esp51-app || echo "No container up. Continue"
+                       cd opo_bus_frontend/ && docker build -t esp51-app .
+                       docker tag esp51-app 192.168.160.99:5000/esp51-app
+                       docker push 192.168.160.99:5000/esp51-app
               
-                 sh 'docker rmi -f esp51springboot || echo "No container up. Continue"'
-                 sh 'pwd'
-                 sh 'cd ../opo_bus/ && docker build -t esp51springboot .'
-                 sh 'docker tag esp51springboot 192.168.160.99:5000/esp51springboot'
-                 sh 'docker push 192.168.160.99:5000/esp51springboot'
+                       docker rmi -f esp51springboot || echo "No container up. Continue"
+                       cd ../opo_bus/ && docker build -t esp51springboot .
+                       docker tag esp51springboot 192.168.160.99:5000/esp51springboot
+                       docker push 192.168.160.99:5000/esp51springboot
+                       '''
 
            }
       }
