@@ -20,17 +20,6 @@ class MainNavbar extends React.Component {
     window.removeEventListener("resize", this.updateColor);
   }
 
-  updateColor = () => {
-    if (window.innerWidth < 993) {
-      this.setState({
-        color: "bg-white"
-      });
-    } else {
-      this.setState({
-        color: "navbar-transparent"
-      });
-    }
-  };
 
   render() {
     return (

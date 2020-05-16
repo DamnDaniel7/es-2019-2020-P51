@@ -2,6 +2,7 @@ import React from "react";
 import {Card, CardBody, Col, Row} from "reactstrap";
 import axios from "axios";
 import ReactTable from "react-table";
+import { connect } from "react-redux";
 
 class Alarms extends React.Component {
 
@@ -30,7 +31,7 @@ class Alarms extends React.Component {
   }
 
   componentDidMount(){
-    axios.get("http://192.168.160.103:51080/alarms").then(res => {
+    axios.get("http://192.168.160.103:51080/alarms/"+this.props.username).then(res => {
       this.setState({
         alarms: res.data
       })
@@ -63,7 +64,7 @@ class Alarms extends React.Component {
                           ),
                         })
                       })}
-                      noDataText="Sem Autocarros para mostrar"
+                      noDataText="Sem Alarmes para mostrar"
                       columns={this.state.colums}
                       showPaginationTop={false}
                       showPaginationBottom={false}
@@ -80,4 +81,10 @@ class Alarms extends React.Component {
   }
 }
 
-export default Alarms;
+function mapStateToProps(state) {
+  return {
+    username: state.user.username
+  };
+}
+
+export default connect(mapStateToProps)(Alarms);

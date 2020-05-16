@@ -11911,3 +11911,9 @@ button.rbc-input::-moz-focus-inner {
     padding: 0 0 100px;
     overflow: hidden;
 }
+
+.card-main {
+    min-height: 88.5vh;
+    position: relative;
+    display: grid;
+}

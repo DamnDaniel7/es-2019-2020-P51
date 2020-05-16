@@ -6,6 +6,7 @@ import classNames from 'classnames';
 // reactstrap components
 import { Card, CardHeader, CardBody, Row, Input, Modal, Button, Col, InputGroup, ButtonGroup } from "reactstrap";
 import axios from "axios";
+import ReactLoading from "react-loading";
 
 class Buses extends React.Component {
 
@@ -59,7 +60,7 @@ class Buses extends React.Component {
   search = word => {
     let temp = []
     this.state.buses_todas.forEach(bus => {
-      if (bus["name"].toLowerCase().includes(word.toLowerCase())){
+      if (bus["busID"].toLowerCase().includes(word.toLowerCase())){
         temp.push(bus)
       }
     })
@@ -75,7 +76,7 @@ class Buses extends React.Component {
           <div className="content">
             <Row>
               <Col md="12">
-                <Card>
+                <Card className="card-main">
                   <CardHeader>
                     <Row>
                       <Col lg={6} md={6} sm={6} xs={4}>
@@ -148,32 +149,38 @@ class Buses extends React.Component {
                     </Row>
                   </CardHeader>
                   <CardBody className="all-icons">
-                    <Row>
-                      {
-                        this.state.buses.map(bus => {
-                          return(
-                              <Col
-                                  md="2"
-                                  sm="3"
-                                  key={bus.busID}
-                              >
-                                <Link to={"/bus/"+bus.id}>
-                                  <div className="font-icon-detail equipas-box">
-                                    <img
-                                        alt="bus"
-                                        height={150}
-                                        src={require("assets/img/icon.png")}
-                                    />
-                                    <br/>
-                                    <br/>
-                                    <h4 className="modalidade-title">{bus.busID}</h4>
-                                  </div>
-                                </Link>
-                              </Col>
-                          )
-                        })
-                      }
-                    </Row>
+                    {
+                      (this.state.buses.length === 0)
+                      ?
+                      <ReactLoading className="text-center mx-auto my-auto" type="spinningBubbles" />
+                      :
+                      <Row>
+                        {
+                          this.state.buses.map(bus => {
+                            return(
+                                <Col
+                                    md="3"
+                                    sm="4"
+                                    key={bus.busID}
+                                >
+                                  <Link to={"/bus/"+bus.busID}>
+                                    <div className="font-icon-detail equipas-box">
+                                      <img
+                                          alt="bus"
+                                          height={150}
+                                          src={require("assets/img/icon.png")}
+                                      />
+                                      <br/>
+                                      <br/>
+                                      <h4 className="modalidade-title">{bus.busID}</h4>
+                                    </div>
+                                  </Link>
+                                </Col>
+                            )
+                          })
+                        }
+                      </Row>
+                    }
                   </CardBody>
                 </Card>
               </Col>
