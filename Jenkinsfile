@@ -30,6 +30,12 @@ pipeline {
                  sh "cd cucumbertests && mvn test"
                }
         }
+      stage('Artifactory Deployment'){
+         agent any
+            steps {
+                 sh "mvn deploy"
+               }
+      }
         stage('Deploy') {
            agent any
            steps {
