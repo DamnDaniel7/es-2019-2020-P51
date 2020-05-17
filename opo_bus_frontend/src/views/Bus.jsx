@@ -6,39 +6,110 @@ import {
   CardHeader,
   CardBody,
   CardText,
-  Nav,
-  NavItem,
-  NavLink,
-  TabPane,
-  TabContent,
+  Button,
   Row,
   Col
 } from "reactstrap";
+import ReactTable from "react-table";
 
 import axios from "axios";
+import {Map, Marker, Popup, TileLayer} from "react-leaflet";
+import L from 'leaflet'
+import { connect } from "react-redux";
 
+export const pointerIcon = new L.Icon({
+  iconUrl: require('assets/img/bus.png'),
+  iconRetinaUrl: require('assets/img/bus.png'),
+  iconAnchor: [5, 55],
+  popupAnchor: [10, -44],
+  iconSize: [30, 30],
+})
 
 class Bus extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageSubcategories: 'ps0',
-      equipaSigla: this.props.match.params.nome,
-      equipa: {equipa:"",modalidades:[], nucleo:"", siglaE:"",siglaN:""}
+      busID: this.props.match.params.id,
+      busRecords: [],
+      colums: [
+        {
+          Header: '# ID',
+          accessor: 'id',
+          sortable: true,
+          minWidth: 80,
+          style: {
+            textAlign: "center",
+          }
+        }, {
+          Header: 'Time',
+          accessor: 'time',
+          sortable: true,
+          minWidth: 150,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Speed',
+          accessor: 'speed',
+          sortable: true,
+          minWidth: 150,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Head',
+          accessor: 'head',
+          sortable: true,
+          minWidth: 150,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Longitude',
+          accessor: 'lon',
+          sortable: true,
+          minWidth: 150,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Latitude',
+          accessor: 'lat',
+          sortable: true,
+          minWidth: 150,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }
+      ],
     };
-    this.getEquipa = this.getEquipa.bind(this);
+    this.getBusRecords = this.getBusRecords.bind(this);
   }
 
   componentDidMount() {
-    this.getEquipa();
+    this.getBusRecords();
   }
 
-  getEquipa(){
-    axios.get("https://taca-ua-nei.com/teams/sigla/"+this.props.match.params.nome)
+  getBusRecords(){
+    axios.get("http://192.168.160.103:51080/bus/"+this.props.match.params.id)
         .then(res => {
-          const equipa = res.data[0];
-          this.setState({equipa});
+          const busRecords = res.data.recordsList;
+          this.setState({busRecords});
         })
+  }
+
+  addAlarm(longitude, latitude, date, bus, username) {
+    axios.post("http://192.168.160.103:51080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
+      this.setState({
+        records: res.data
+      })
+      console.log(res.data)
+    })
   }
 
   render() {
@@ -49,44 +120,46 @@ class Bus extends React.Component {
               <Col md="9">
                 <Card>
                   <CardHeader role="tab">
-                    <h5 className="title"></h5>
+                    <h3 className="title">Mapa</h3>
                   </CardHeader>
                   <CardBody>
-                    <Row>
-                      <Col lg={2} md={3} xs={12}>
-                        <Nav pills className="nav-pills-primary nav-pills-icons flex-column">
-{/*                          {this.state.equipa.modalidades.map((modalidade, index) => {
-                            return(
-                                <NavItem>
-                                  <NavLink
-                                      className={this.state.pageSubcategories === "ps"+index ? "active":""}
-                                      onClick={() => this.setState({pageSubcategories: "ps"+index})}
-                                  >
-                                    <img
-                                        alt="..."
-                                        height={30}
-                                        src={require("assets/img/"+this.getIcon(modalidade))}
-                                    />
-                                    <br/>
-                                    {modalidade}
-                                  </NavLink>
-                                </NavItem>
-                            )
-                          })}*/}
-                        </Nav>
-                      </Col>
-                      <Col lg={10} md={9} xs={12}>
-                        <TabContent className="tab-space" activeTab={this.state.pageSubcategories}>
-{/*                          {this.state.equipa.modalidades.map((modalidade, index) => {
-                            return(
-                                <TabPane tabId={"ps"+index}>
-                                  <GamesTables team={this.state.equipa.equipa} modalidade={modalidade} />
-                                </TabPane>
-                            )
-                          })}*/}
-                        </TabContent>
-                      </Col>
-                    </Row>
+                    <Map center={[41.1497, -8.6213]} zoom={12}>
+                      <TileLayer
+                          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                      />
+                      {
+                        this.state.busRecords.map(record => {
+                          return(
+                            <Marker position={[record["latitude"], record["longitude"]]} icon={pointerIcon}>
+                              <Popup>
+                                ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]} | <Button onClick={ () => this.addAlarm(record["latitude"], record["longitude"], record["timestamp"], this.state.busID, this.props.username)}>Adicionar Alarme <i class="fas fa-bell"></i></Button>
+                              </Popup>
+                            </Marker>
+                          )
+                        })
+                      }
+                    </Map>
+                    <br />
+                    <br />
+                    <ReactTable
+                        data={this.state.busRecords.map((record) => {
+                          return({
+                            id: record["recordsId"],
+                            time: record["timestamp"],
+                            speed: record["speed"],
+                            head: record["head"],
+                            lon: record["longitude"],
+                            lat: record["latitude"]
+                          })
+                        })}
+                        noDataText="Sem Records para mostrar"
+                        columns={this.state.colums}
+                        showPaginationTop={false}
+                        showPaginationBottom={false}
+                        resizable={false}
+                        className="-striped -highlight primary-pagination"
+                    />
                   </CardBody>
                 </Card>
               </Col>
@@ -105,9 +178,8 @@ class Bus extends React.Component {
                             className="avatar"
                             src={require("assets/img/icon.png")}
                         />
-                        <h5 className="title">-</h5>
+                        <h5 className="title">{this.state.busID}</h5>
                         <br/>
-                        <p className="description">-</p>
                       </a>
                     </div>
                   </CardBody>
@@ -120,4 +192,11 @@ class Bus extends React.Component {
   }
 }
 
-export default Bus;
+function mapStateToProps(state) {
+  return {
+    username: state.user.username
+  };
+}
+
+
+export default connect(mapStateToProps)(Bus);
