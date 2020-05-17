@@ -26,8 +26,8 @@ public class AlarmController {
     private BusRepository busRepository;
 
     @GetMapping("/{username}")
-    public Iterable<Alarm> listAlarms(@PathVariable("username") String username) {
-        return userRepository.getOne(username).getAlarms();
+    public ResponseEntity listAlarms(@PathVariable("username") String username) {
+        return new ResponseEntity<>( userRepository.getOne(username).getAlarms(),HttpStatus.OK);
     }
 
     @PostMapping(value = "/addalarm", consumes = "application/json")

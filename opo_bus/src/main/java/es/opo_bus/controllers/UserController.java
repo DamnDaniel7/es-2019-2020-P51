@@ -44,8 +44,27 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/")
-    public Iterable<User> listUsers(){
-        return userRepository.findAll();
+    public ResponseEntity listUsers(){
+        return new ResponseEntity<>(userRepository.findAll(),HttpStatus.OK);
     }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/delete")
+    public ResponseEntity delete(@RequestBody Map<String, Object> credentials) {
+        String username = credentials.get("username").toString();
+        String password = credentials.get("password").toString();
+
+        Optional<User> userOpt = userRepository.findById(username);
+        if(userOpt.isPresent()) {
+            User user = userOpt.get();
+            if(!user.getPassword().equals(password)) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            userRepository.delete(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
 
 }
