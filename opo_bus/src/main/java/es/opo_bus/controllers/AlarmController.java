@@ -25,11 +25,13 @@ public class AlarmController {
     @Autowired
     private BusRepository busRepository;
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/{username}")
     public ResponseEntity listAlarms(@PathVariable("username") String username) {
         return new ResponseEntity<>( userRepository.getOne(username).getAlarms(),HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/addalarm", consumes = "application/json")
     public ResponseEntity createAlarm(@RequestBody Map<String, Object> jsonObject) {
         String longitude = jsonObject.get("longitude").toString();
@@ -49,6 +51,7 @@ public class AlarmController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping(value = "/removealarm/{id}")
     public ResponseEntity<Boolean> deleteAlarm(@PathVariable("id") long id) {
         if(!alarmRepository.findById(id).isPresent())
