@@ -43,7 +43,7 @@ pipeline {
                }
       }
       stage('Create Docker Images'){
-           agent any
+           
            parallel{
               stage('Image Api Server'){
                   steps {
