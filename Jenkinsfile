@@ -42,13 +42,13 @@ pipeline {
                  sh '''
                        docker rmi -f esp51-app || echo "No image up. Continue"
                        cd opo_bus_frontend/ && docker build -t esp51-app .
-                       docker tag esp51-app 192.168.160.99:5000/esp51-app
-                       docker push 192.168.160.99:5000/esp51-app
+                       docker tag esp51-app 192.168.160.99:5000/esp51-app:latest
+                       docker push 192.168.160.99:5000/esp51-app:latest
               
                        docker rmi -f esp51springboot || echo "No image up. Continue"
                        cd ../opo_bus/ && docker build -t esp51springboot .
-                       docker tag esp51springboot 192.168.160.99:5000/esp51springboot
-                       docker push 192.168.160.99:5000/esp51springboot
+                       docker tag esp51springboot 192.168.160.99:5000/esp51springboot:latest
+                       docker push 192.168.160.99:5000/esp51springboot:latest
                        '''
 
            }
@@ -60,9 +60,9 @@ pipeline {
                 sshagent (credentials: ['esp51v2']) {
                    sh '''
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker rm -f Esp51Server || echo "No container up. Continue"
-                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker run -d -p 51080:8080 --name Esp51Server --network es51-network 192.168.160.99:5000/esp51springboot
+                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker run -d -p 51080:8080 --name Esp51Server --network es51-network 192.168.160.99:5000/esp51springboot:latest
                         ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker rm -f Esp51Frontend || echo "No container up. Continue"
-                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker run -d -it -p 51880:80 --name Esp51Frontend 192.168.160.99:5000/esp51-app
+                        ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 docker run -d -it -p 51880:80 --name Esp51Frontend 192.168.160.99:5000/esp51-app:latest
                    '''
                 
                    // sh "ssh -o StrictHostKeyChecking=no esp51@192.168.160.103 uname -a"
