@@ -1,6 +1,12 @@
 pipeline {
    
    agent any
+   
+   environment {
+        esp51_api = ""
+        esp51_web = ""
+    }
+   
    stages {
       stage('Build') {
          agent {
@@ -36,22 +42,45 @@ pipeline {
                  sh 'cd opo_bus && mvn clean deploy -s .m2/settings.xml'
                }
       }
+      stage('Create Docker Images'){
+           agent any
+           parallel{
+              stage('Image Api Server'){
+                  steps {
+                        dir('opo_bus'){
+                            script {
+                                esp51_api = docker.build("esp51springboot")
+                            }
+                        }
+                    }
+              }
+              
+              stage('Image Web'){
+                  steps {
+                        dir('opo_bus_frontend'){
+                            script {
+                                esp51_web = docker.build("esp51-app")
+                            }
+                        }
+                    }
+              }
+           }
+      }
+      
       stage('Push Docker Images'){
            agent any
            steps {
-                 sh '''
-                       docker rmi -f esp51-app || echo "No image up. Continue"
-                       cd opo_bus_frontend/ && docker build -t esp51-app .
-                       docker tag esp51-app 192.168.160.99:5000/esp51-app:latest
-                       docker push 192.168.160.99:5000/esp51-app:latest
-              
-                       docker rmi -f esp51springboot || echo "No image up. Continue"
-                       cd ../opo_bus/ && docker build -t esp51springboot .
-                       docker tag esp51springboot 192.168.160.99:5000/esp51springboot:latest
-                       docker push 192.168.160.99:5000/esp51springboot:latest
-                       '''
-
-           }
+                script {
+                    docker.withRegistry('http://192.168.160.99:5000/esp51springboot') {
+                        esp51_api.push("${env.BUILD_NUMBER}")
+                        esp51_api.push("latest")
+                    }
+                    docker.withRegistry('http://192.168.160.99:5000/esp51-app') {
+                        esp51_web.push("${env.BUILD_NUMBER}")
+                        esp51_web.push("latest")
+                    }
+                }
+            }
       }
         stage('Deploy') {
            agent any
