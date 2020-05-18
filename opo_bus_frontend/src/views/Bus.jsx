@@ -119,9 +119,6 @@ class Bus extends React.Component {
             <Row>
               <Col md="9">
                 <Card>
-                  <CardHeader role="tab">
-                    <h3 className="title">Mapa</h3>
-                  </CardHeader>
                   <CardBody>
                     <Map center={[41.1497, -8.6213]} zoom={12}>
                       <TileLayer
