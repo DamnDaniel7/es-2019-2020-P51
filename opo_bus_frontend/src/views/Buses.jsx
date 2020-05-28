@@ -159,7 +159,7 @@ class Buses extends React.Component {
                           this.state.buses.map(bus => {
                             return(
                                 <Col
-                                    md="2"
+                                    md="3"
                                     sm="4"
                                     key={bus.busID}
                                 >
