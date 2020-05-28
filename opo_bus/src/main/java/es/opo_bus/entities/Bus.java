@@ -44,6 +44,14 @@ public class Bus implements Serializable {
         this.recordsList = recordsList;
     }
 
+    public List<Alarm> getAlarms() {
+        return alarms;
+    }
+
+    public void setAlarms(List<Alarm> alarms) {
+        this.alarms = alarms;
+    }
+
     @Override
     public String toString() {
         return busID;

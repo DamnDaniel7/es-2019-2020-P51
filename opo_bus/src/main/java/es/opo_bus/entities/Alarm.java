@@ -15,6 +15,7 @@ public class Alarm implements Serializable {
     private String longitude;
     private String latitude;
     private long minutes;
+    private boolean active;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,6 +36,7 @@ public class Alarm implements Serializable {
         this.minutes = minutes;
         this.user = user;
         this.bus = bus;
+        this.active = false;
     }
 
     public long getId() {
@@ -91,5 +93,13 @@ public class Alarm implements Serializable {
 
     public void setBus(Bus bus) {
         this.bus = bus;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
