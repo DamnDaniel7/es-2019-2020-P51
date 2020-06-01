@@ -59,7 +59,7 @@ class Home extends React.Component {
         <div className="content">
           <Row>
             <Col xs="12">
-              <Card className="card-chart">
+              <Card>
                 <CardHeader>
                   <Row>
                     <Col className="text-left" xs="6">
@@ -69,7 +69,7 @@ class Home extends React.Component {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  <iframe src="http://192.168.160.103:5601/s/esp51/app/kibana#/dashboard/49ce5030-98e2-11ea-9439-01ab91ef970e?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-15y%2Cto%3Anow))" height="600" width="100%"></iframe>
+                  <iframe src="http://192.168.160.103:5601/s/esp51/app/kibana#/dashboard/49ce5030-98e2-11ea-9439-01ab91ef970e?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-15y%2Cto%3Anow))" height="850" width="100%"></iframe>
                 </CardBody>
               </Card>
             </Col>

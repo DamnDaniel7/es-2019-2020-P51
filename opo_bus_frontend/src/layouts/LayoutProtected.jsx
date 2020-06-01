@@ -32,16 +32,16 @@ class Layout extends React.Component {
       let temp = [];
       temp = res.data;
       temp.forEach(alarm => {
-        if(alarm.active === true) {
+/*         if(alarm.id === 57) {
           var options = {
             place: "tr",
             message: "Alert: Bus "+alarm.bus.busID+" from alarm with id "+alarm.id+" is approching",
-            type: "primary",
+            type: "info",
             autoDismiss: "10",
             icon: "fas fa-bell"
           };
           this.refs.notify.notificationAlert(options);
-        }
+        } */
       })
     })
   }

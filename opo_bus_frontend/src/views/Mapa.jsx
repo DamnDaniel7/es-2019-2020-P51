@@ -241,7 +241,15 @@ class Mapa extends React.Component {
                         return(
                           <Marker position={[record["latitude"], record["longitude"]]} icon={pointerIcon}>
                             <Popup>
-                              ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]}
+                              <div className="text-justify">
+                                <b>ID:</b> {record["recordsId"]}
+                                <br />
+                                <b>Head:</b> {record["head"]}
+                                <br />
+                                <b>Timestamp:</b> {record["timestamp"]}
+                                <br />
+                                <hr />
+                              </div>                            
                             </Popup>
                           </Marker>
                         )

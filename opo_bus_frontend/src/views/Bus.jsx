@@ -11,6 +11,7 @@ import {
   Col
 } from "reactstrap";
 import ReactTable from "react-table";
+import Notify from 'react-notification-alert';
 
 import axios from "axios";
 import {Map, Marker, Popup, TileLayer} from "react-leaflet";
@@ -96,7 +97,7 @@ class Bus extends React.Component {
   }
 
   getBusRecords(){
-    axios.get("http://192.168.160.103:51080/bus/"+this.props.match.params.id)
+    axios.get("http://localhost:8080/bus/"+this.props.match.params.id)
         .then(res => {
           const busRecords = res.data.recordsList;
           this.setState({busRecords});
@@ -104,17 +105,22 @@ class Bus extends React.Component {
   }
 
   addAlarm(longitude, latitude, date, bus, username) {
-    axios.post("http://192.168.160.103:51080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
-      this.setState({
-        records: res.data
-      })
-      console.log(res.data)
+    axios.post("http://localhost:8080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
+      var options = {
+        place: "tc",
+        message: "Alarm added with success",
+        type: "success",
+        autoDismiss: "10",
+        icon: "fas fa-check-double"
+      };
+      this.refs.notify.notificationAlert(options);
     })
   }
 
   render() {
     return (
         <>
+          <Notify ref="notify"/>
           <div className="content">
             <Row>
               <Col md="9">

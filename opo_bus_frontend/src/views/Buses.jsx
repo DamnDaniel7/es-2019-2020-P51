@@ -42,7 +42,7 @@ class Buses extends React.Component {
   }
 
   getEquipas(){
-    axios.get("http://192.168.160.103:51080/bus")
+    axios.get("http://localhost:8080/bus")
         .then(res => {
           const buses = res.data;
           this.setState({buses: buses, buses_todas: buses});
