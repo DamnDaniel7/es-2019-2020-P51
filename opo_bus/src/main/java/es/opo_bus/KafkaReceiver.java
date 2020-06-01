@@ -56,6 +56,7 @@ public class KafkaReceiver {
         for(Alarm alarm : bus.getAlarms()) {
             double d = calcDistance(Double.parseDouble(alarm.getLongitude()), Double.parseDouble(alarm.getLatitude()), Double.parseDouble(longitude), Double.parseDouble(latitude));
             if( d < 1.5) {
+                System.out.println("distancia minima");
                 alarm.setActive(true);
                 alarmRepository.saveAndFlush(alarm);
             }
@@ -69,6 +70,7 @@ public class KafkaReceiver {
         double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double d = r * c;
+        System.out.println(d);
         return d;
     }
 
