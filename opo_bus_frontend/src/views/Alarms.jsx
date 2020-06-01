@@ -1,66 +1,128 @@
 import React from "react";
-import {Card, CardBody, Col, Row} from "reactstrap";
+import {Card, CardBody, Col, Row, Button} from "reactstrap";
 import axios from "axios";
 import ReactTable from "react-table";
 import { connect } from "react-redux";
+import Notify from 'react-notification-alert';
 
 class Alarms extends React.Component {
 
-  state = {
-    alarms: [],
-    colums: [
-      {
-        Header: '# ID',
-        accessor: 'id',
-        sortable: true,
-        minWidth: 40,
-        style: {
-          textAlign: "center",
+  constructor(props) {
+    super(props);
+    this.state = {
+      alarms: [],
+      visible: false,
+      colums: [
+        {
+          Header: '# ID',
+          accessor: 'id',
+          sortable: true,
+          minWidth: 40,
+          style: {
+            textAlign: "center",
+          }
+        }, {
+          Header: 'Date',
+          accessor: 'date',
+          sortable: true,
+          minWidth: 100,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Longitude',
+          accessor: 'long',
+          sortable: true,
+          minWidth: 70,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Latitude',
+          accessor: 'lat',
+          sortable: true,
+          minWidth: 70,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Minutes',
+          accessor: 'min',
+          sortable: true,
+          minWidth: 50,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Bus ID',
+          accessor: 'bus',
+          sortable: true,
+          minWidth: 150,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
+        }, {
+          Header: 'Actions',
+          accessor: 'del',
+          sortable: true,
+          minWidth: 100,
+          style: {
+            textAlign: "center",
+            wordBreak: "break-all",
+          }
         }
-      }, {
-        Header: 'Records',
-        accessor: 'record',
-        sortable: true,
-        minWidth: 150,
-        style: {
-          textAlign: "center",
-          wordBreak: "break-all",
-        }
-      }
-    ],
+      ],
+    }
+    this.delAlarm = this.delAlarm.bind(this);
   }
 
   componentDidMount(){
-    axios.get("http://192.168.160.103:51080/alarms/"+this.props.username).then(res => {
+    axios.get("http://localhost:8080/alarm/"+this.props.username).then(res => {
       this.setState({
         alarms: res.data
       })
-      console.log(res.data)
+    })
+  }
+
+  delAlarm(id) {
+    axios.delete("http://localhost:8080/alarm/removealarm/"+id).then(res => {
+      var options = {
+        place: "tc",
+        message: "Alarm with id "+id+" removed with success",
+        type: "success",
+        autoDismiss: "10",
+        icon: "fas fa-trash-alt"
+      };
+      this.refs.notify.notificationAlert(options);
+      this.componentDidMount()
     })
   }
 
   render() {
     return (
       <>
+        <Notify ref="notify"/>
         <div className="content">
           <Row>
             <Col xs="12">
               <Card className="card-chart">
                 <CardBody>
                   <ReactTable
-                      data={this.state.alarms.map((bus,index) => {
+                      data={this.state.alarms.map((alarm,index) => {
                         return({
-                          id: bus["busID"],
-                          record: (
-                              bus["recordsList"].map(record => {
-                                return(
-                                  <>
-                                    <span><b>Timestamp:</b> {record["timestamp"]} | <b>Speed:</b> {record["speed"]} | <b>Longitude:</b> {record["longitude"]} | <b>Latitude:</b> {record["latitude"]} | <b>Direção:</b> {record["head"]} |</span>
-                                    <br />
-                                    <hr/>
-                                  </>
-                                )
-                              })
+                          id: alarm["id"],
+                          date: alarm["date"],
+                          long: alarm["longitude"],
+                          lat: alarm["latitude"],
+                          min: alarm["minutes"],
+                          bus: alarm["bus"]["busID"],
+                          del: (
+                              <Button className="btn-round btn-icon" color="danger" onClick={() => this.delAlarm(alarm["id"])}><i className="fas fa-trash-alt"></i></Button>
                           ),
                         })
                       })}

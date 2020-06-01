@@ -96,7 +96,7 @@ class Bus extends React.Component {
   }
 
   getBusRecords(){
-    axios.get("http://192.168.160.103:51080/bus/"+this.props.match.params.id)
+    axios.get("http://localhost:8080/bus/"+this.props.match.params.id)
         .then(res => {
           const busRecords = res.data.recordsList;
           this.setState({busRecords});
@@ -104,7 +104,7 @@ class Bus extends React.Component {
   }
 
   addAlarm(longitude, latitude, date, bus, username) {
-    axios.post("http://192.168.160.103:51080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
+    axios.post("http://localhost:8080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
       this.setState({
         records: res.data
       })

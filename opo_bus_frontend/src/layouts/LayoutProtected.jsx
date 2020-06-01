@@ -2,10 +2,11 @@
 import React from "react";
 import { Route} from "react-router-dom";
 import { connect } from "react-redux";
-import {Swipeable} from "react-swipeable";
+import axios from "axios";
 
 import Navbar from "components/Navbars/Navbar";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
+import Notify from 'react-notification-alert';
 
 import routes from "routesProtected";
 
@@ -23,6 +24,26 @@ class Layout extends React.Component {
     if(!this.props.isAuthenticated){
       this.props.history.push("/login");
     }
+    setInterval(this.alarms(), 1000);
+  }
+
+  alarms(){
+    axios.get("http://localhost:8080/alarm/"+this.props.username).then(res => {
+      let temp = [];
+      temp = res.data;
+      temp.forEach(alarm => {
+        if(alarm.active === true) {
+          var options = {
+            place: "tr",
+            message: "Alert: Bus "+alarm.bus.busID+" from alarm with id "+alarm.id+" is approching",
+            type: "primary",
+            autoDismiss: "10",
+            icon: "fas fa-bell"
+          };
+          this.refs.notify.notificationAlert(options);
+        }
+      })
+    })
   }
 
   componentDidUpdate(e) {
@@ -68,6 +89,7 @@ class Layout extends React.Component {
   render() {
     return (
         <>
+          <Notify ref="notify"/>
           <div className="wrapper wrapper-full-page">
             <Sidebar
                 {...this.props}
@@ -94,7 +116,8 @@ class Layout extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: !!state.user.username
+    isAuthenticated: !!state.user.username,
+    username: state.user.username
   };
 }
 
