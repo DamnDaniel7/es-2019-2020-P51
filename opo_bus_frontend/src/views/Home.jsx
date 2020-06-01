@@ -64,54 +64,12 @@ class Home extends React.Component {
                   <Row>
                     <Col className="text-left" xs="6">
                       <h5 className="card-category">Main Board</h5>
-                      <CardTitle tag="h2">Map</CardTitle>
+                      <CardTitle tag="h2">Dashboard</CardTitle>
                     </Col>
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  <Map center={[41.1497, -8.6213]} zoom={14}>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    {
-                      this.state.records.map(record => {
-                        return(
-                          <Marker position={[record["latitude"], record["longitude"]]} icon={pointerIcon}>
-                            <Popup>
-                              ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]}
-                            </Popup>
-                          </Marker>
-                        )
-                      })
-                    }
-                  </Map>
-                  <br />
-                  <br />
-                  <ReactTable
-                      data={this.state.bus.map((bus,index) => {
-                        return({
-                          id: bus["busID"],
-                          record: (
-                              bus["recordsList"].map(record => {
-                                return(
-                                  <>
-                                    <span><b>Timestamp:</b> {record["timestamp"]} | <b>Speed:</b> {record["speed"]} | <b>Longitude:</b> {record["longitude"]} | <b>Latitude:</b> {record["latitude"]} | <b>Direção:</b> {record["head"]} |</span>
-                                    <br />
-                                    <hr/>
-                                  </>
-                                )
-                              })
-                          ),
-                        })
-                      })}
-                      noDataText="Sem Autocarros para mostrar"
-                      columns={this.state.colums}
-                      showPaginationTop={false}
-                      showPaginationBottom={false}
-                      resizable={false}
-                      className="-striped -highlight primary-pagination"
-                  />
+                  <iframe src="http://192.168.160.103:5601/s/esp51/app/kibana#/dashboard/49ce5030-98e2-11ea-9439-01ab91ef970e?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-15y%2Cto%3Anow))" height="600" width="100%"></iframe>
                 </CardBody>
               </Card>
             </Col>

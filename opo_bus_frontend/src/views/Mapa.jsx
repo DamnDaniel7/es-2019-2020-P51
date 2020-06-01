@@ -241,7 +241,7 @@ class Mapa extends React.Component {
                         return(
                           <Marker position={[record["latitude"], record["longitude"]]} icon={pointerIcon}>
                             <Popup>
-                              ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]} | <Button onClick={ () => this.addAlarm(record["latitude"], record["longitude"], record["timestamp"], record["recordsId"], this.props.username)}>Adicionar Alarme <i class="fas fa-bell"></i></Button>
+                              ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]}
                             </Popup>
                           </Marker>
                         )

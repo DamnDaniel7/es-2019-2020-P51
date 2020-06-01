@@ -96,7 +96,7 @@ class Bus extends React.Component {
   }
 
   getBusRecords(){
-    axios.get("http://localhost:8080/bus/"+this.props.match.params.id)
+    axios.get("http://192.168.160.103:51080/bus/"+this.props.match.params.id)
         .then(res => {
           const busRecords = res.data.recordsList;
           this.setState({busRecords});
@@ -104,7 +104,7 @@ class Bus extends React.Component {
   }
 
   addAlarm(longitude, latitude, date, bus, username) {
-    axios.post("http://localhost:8080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
+    axios.post("http://192.168.160.103:51080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
       this.setState({
         records: res.data
       })
@@ -130,7 +130,18 @@ class Bus extends React.Component {
                           return(
                             <Marker position={[record["latitude"], record["longitude"]]} icon={pointerIcon}>
                               <Popup>
-                                ID: {record["recordsId"]} | Head: {record["head"]} | timestamp: {record["timestamp"]} | <Button onClick={ () => this.addAlarm(record["latitude"], record["longitude"], record["timestamp"], this.state.busID, this.props.username)}>Adicionar Alarme <i class="fas fa-bell"></i></Button>
+                                <div className="text-justify">
+                                  <b>ID:</b> {record["recordsId"]}
+                                  <br />
+                                  <b>Head:</b> {record["head"]}
+                                  <br />
+                                  <b>Timestamp:</b> {record["timestamp"]}
+                                  <br />
+                                  <hr />
+                                </div>
+                                <div className="text-center">
+                                  <Button className="btn-simple" size="sm" onClick={ () => this.addAlarm(record["latitude"], record["longitude"], record["timestamp"], this.state.busID, this.props.username)}>Adicionar Alarme <i class="fas fa-bell"></i></Button>
+                                </div>
                               </Popup>
                             </Marker>
                           )
