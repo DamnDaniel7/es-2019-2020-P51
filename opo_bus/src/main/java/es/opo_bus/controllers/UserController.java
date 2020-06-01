@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/user")
 public class UserController {
 
