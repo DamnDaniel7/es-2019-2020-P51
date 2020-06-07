@@ -28,7 +28,7 @@ class Layout extends React.Component {
   }
 
   alarms(){
-    axios.get("http://localhost:8080/alarm/"+this.props.username).then(res => {
+    axios.get("http://192.168.160.103:51080/alarm/"+this.props.username).then(res => {
       let temp = [];
       temp = res.data;
       temp.forEach(alarm => {

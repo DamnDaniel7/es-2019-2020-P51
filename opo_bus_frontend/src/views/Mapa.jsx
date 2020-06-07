@@ -69,7 +69,7 @@ class Mapa extends React.Component {
   componentDidMount(){
     let to =new window.Date();
     let from = new window.Date(0,1,1,1,1,1,1)
-    axios.get("http://localhost:8080/records").then(res => {
+    axios.get("http://192.168.160.103:51080/records").then(res => {
       this.setState({
         records: res.data,
         recordsAll: res.data,
@@ -106,7 +106,7 @@ class Mapa extends React.Component {
 
 
   addAlarm(longitude, latitude, date, bus, username) {
-    axios.post("http://localhost:8080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
+    axios.post("http://192.168.160.103:51080/alarm/addalarm", {longitude, latitude, date, bus, username}).then(res => {
       this.setState({
         records: res.data
       })

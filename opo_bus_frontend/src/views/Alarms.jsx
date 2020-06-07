@@ -82,7 +82,7 @@ class Alarms extends React.Component {
   }
 
   componentDidMount(){
-    axios.get("http://localhost:8080/alarm/"+this.props.username).then(res => {
+    axios.get("http://192.168.160.103:51080/alarm/"+this.props.username).then(res => {
       this.setState({
         alarms: res.data
       })
@@ -90,7 +90,7 @@ class Alarms extends React.Component {
   }
 
   delAlarm(id) {
-    axios.delete("http://localhost:8080/alarm/removealarm/"+id).then(res => {
+    axios.delete("http://192.168.160.103:51080/alarm/removealarm/"+id).then(res => {
       var options = {
         place: "tc",
         message: "Alarm with id "+id+" removed with success",
