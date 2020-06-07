@@ -55,7 +55,7 @@ public class KafkaReceiver {
 
         for(Alarm alarm : bus.getAlarms()) {
             double d = calcDistance(Double.parseDouble(alarm.getLongitude()), Double.parseDouble(alarm.getLatitude()), Double.parseDouble(longitude), Double.parseDouble(latitude));
-            if( d < 1.5) {
+            if( d < 7600) {
                 System.out.println("distancia minima");
                 alarm.setActive(true);
                 alarmRepository.saveAndFlush(alarm);
