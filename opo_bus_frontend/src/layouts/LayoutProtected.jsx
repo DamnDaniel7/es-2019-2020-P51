@@ -34,7 +34,7 @@ class Layout extends React.Component {
       temp.forEach(alarm => {
 /*         if(alarm.id === 57) {
           var options = {
-            place: "tr",
+            place: "tc",
             message: "Alert: Bus "+alarm.bus.busID+" from alarm with id "+alarm.id+" is approching",
             type: "info",
             autoDismiss: "10",
