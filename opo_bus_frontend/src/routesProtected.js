@@ -36,20 +36,6 @@ const routes = [
     component: Alarms,
   },
   {
-    path: "/routes",
-    name: "Routes",
-    sidebar: true,
-    icon: "fas fa-route",
-    component: Alarms,
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    sidebar: true,
-    icon: "fas fa-id-card",
-    component: Profile,
-  },
-  {
     pro: true,
     path: "/logout",
     name: "Logout",

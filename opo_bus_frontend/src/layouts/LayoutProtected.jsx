@@ -18,32 +18,33 @@ class Layout extends React.Component {
           document.documentElement.className.indexOf("nav-open") !== -1,
     };
   }
-
   componentDidMount(){
     console.log(this.props.isAuthenticated)
     if(!this.props.isAuthenticated){
       this.props.history.push("/login");
     }
-    setInterval(this.alarms(), 1000);
+    this.trigger()
   }
 
-  alarms(){
-    axios.get("http://192.168.160.103:51080/alarm/"+this.props.username).then(res => {
-      let temp = [];
-      temp = res.data;
-      temp.forEach(alarm => {
-/*         if(alarm.id === 57) {
-          var options = {
-            place: "tc",
-            message: "Alert: Bus "+alarm.bus.busID+" from alarm with id "+alarm.id+" is approching",
-            type: "info",
-            autoDismiss: "10",
-            icon: "fas fa-bell"
-          };
-          this.refs.notify.notificationAlert(options);
-        } */
+  trigger() {
+    setInterval(() => { 
+      axios.get("http://localhost:8080/alarm/"+this.props.username).then(res => {
+        let temp = [];
+        temp = res.data;
+        temp.forEach(alarm => {
+          if(alarm.active === true) {
+            var options = {
+              place: "tc",
+              message: "Alert: Bus "+alarm.bus.busID+" from alarm with id "+alarm.id+" is approching",
+              type: "info",
+              autoDismiss: "10",
+              icon: "fas fa-bell"
+            };
+            this.refs.notify.notificationAlert(options);
+          }
+        })
       })
-    })
+    }, 10000);
   }
 
   componentDidUpdate(e) {

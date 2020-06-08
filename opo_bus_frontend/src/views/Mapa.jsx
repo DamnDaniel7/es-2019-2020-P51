@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, CardBody, Col, Row, Button, Collapse} from "reactstrap";
+import {Card, CardBody, Col, Row, Button, Collapse, Input} from "reactstrap";
 import {Map, Marker, Popup, TileLayer, Polyline} from "react-leaflet";
 import L from 'leaflet'
 import axios from "axios";
@@ -37,7 +37,10 @@ class Mapa extends React.Component {
       recordsAll: [],
       fromTime: null,
       toTime: null,
+      minSpeed: 0,
+      maxSpeed: 100000000,
       openedCollapses: [],
+      bus: [],
       allBus: [],
       colums: [
         {
@@ -62,7 +65,9 @@ class Mapa extends React.Component {
     };
     this.bigTimestamp = this.bigTimestamp.bind(this)
     this.smallTimestamp = this.smallTimestamp.bind(this)
-    this.reduceRecords = this.reduceRecords.bind(this)
+    this.bigSpeed = this.bigSpeed.bind(this)
+    this.smallSpeed = this.smallSpeed.bind(this)
+    this.reduceBus = this.reduceBus.bind(this)
   }
 
 
@@ -70,9 +75,16 @@ class Mapa extends React.Component {
     let to =new window.Date();
     let from = new window.Date(0,1,1,1,1,1,1)
     axios.get("http://192.168.160.103:51080/records").then(res => {
+      let rec = res.data
+      let busTempo = []
+      rec.forEach( reco => {
+        if (!busTempo.includes(reco.recordsId))
+          busTempo.push({"value": reco.recordsId, "label": reco.recordsId})
+      })
       this.setState({
         records: res.data,
         recordsAll: res.data,
+        bus: busTempo,
         fromTime: from,
         toTime: to
       })
@@ -92,17 +104,40 @@ class Mapa extends React.Component {
     }
   };
 
-  reduceRecords = () => {
-    this.setState({
-      records: this.state.recordsAll.filter(this.smallTimestamp).filter(this.bigTimestamp)
-    })
-  }
-
   bigTimestamp(value){ 
     return new window.Date(value.timestamp) <= new window.Date(this.state.toTime);
   }
 
-  smallTimestamp(value){ return Date(value.timestamp) >= Date(this.state.fromTime);}
+  smallTimestamp(value){ return new window.Date(value.timestamp) >= new window.Date(this.state.fromTime);}
+
+  bigSpeed(value){ 
+    console.log(this.state.maxSpeed)
+    return value.speed <= this.state.maxSpeed;
+  }
+
+  smallSpeed(value){ 
+    return value.speed >= this.state.minSpeed;
+  }
+
+  reduceBus(value){ 
+    let temp = []
+    try {
+      if (this.state.allBus.length === 0){
+        return true
+      }
+      else {
+        this.state.allBus.forEach( bus => {
+          if (!temp.includes(bus.value)){
+            temp.push(bus.value)
+          }
+        })
+        return temp.includes(value["recordsId"])
+     }
+    } catch (error) {
+      return true
+    }
+
+  }
 
 
   addAlarm(longitude, latitude, date, bus, username) {
@@ -153,7 +188,7 @@ class Mapa extends React.Component {
                         onClick={(e) => {e.preventDefault();this.collapsesToggle("collapseOne")}}
                       >
                         More Filters{" "}
-                        <i class="fas fa-2x fa-sort-down"></i>
+                        <i className="fas fa-2x fa-sort-down"></i>
                       </a>
                     </Col>
                     <Col xs="12">
@@ -165,22 +200,18 @@ class Mapa extends React.Component {
                           <Col xs="1" className="mt-2">
                             <h4 className="m-1">Speed: </h4>
                           </Col>
-                          <Col xs="1" className="mt-2">
-                            <Datetime
-                              inputProps={{placeholder:"Min"}}
-                            />
+                          <Col xs="2" className="mt-2">
+                            <Input type="number" name="minSpeed" id="minSpeed" placeholder="min Speed" onChange={(e) => {this.setState({minSpeed: e.target.value})}} />
                           </Col>
-                          <Col xs="1" className="mt-2">
-                            <Datetime
-                              inputProps={{placeholder:"Max"}}
-                            />
+                          <Col xs="2" className="mt-2">
+                            <Input type="number" name="maxSpeed" id="maxSpeed" placeholder="max Speed" onChange={(e) => {this.setState({maxSpeed: e.target.value})}} />
                           </Col>
-                          <Col xs="9" className="mt-2">
+                          <Col xs="7" className="mt-2">
                           </Col>
                           <Col xs="1" className="mt-2">
                             <h4 className="m-1">Buses: </h4>
                           </Col>
-                          <Col xs="2" className="mt-2">
+                          <Col xs="4" className="mt-2">
                             <Select
                               className="react-select info"
                               classNamePrefix="react-select"
@@ -193,37 +224,10 @@ class Mapa extends React.Component {
                               onChange={value =>
                                 this.setState({ allBus: value })
                               }
-                              options={[
-                                {
-                                  value: "",
-                                  label: "All Buses",
-                                  isDisabled: true
-                                },
-                                { value: "2", label: "Paris " },
-                                { value: "3", label: "Bucharest" },
-                                { value: "4", label: "Rome" },
-                                { value: "5", label: "New York" },
-                                { value: "6", label: "Miami " },
-                                { value: "7", label: "Piatra Neamt" },
-                                { value: "8", label: "Paris " },
-                                { value: "9", label: "Bucharest" },
-                                { value: "10", label: "Rome" },
-                                { value: "11", label: "New York" },
-                                { value: "12", label: "Miami " },
-                                { value: "13", label: "Piatra Neamt" },
-                                { value: "14", label: "Paris " },
-                                { value: "15", label: "Bucharest" },
-                                { value: "16", label: "Rome" },
-                                { value: "17", label: "New York" },
-                                { value: "18", label: "Miami " },
-                                { value: "19", label: "Piatra Neamt" }
-                              ]}
+                              options={this.state.bus}
                             />
                           </Col>
                           <Col xs="9" className="mt-2">
-                          </Col>
-                          <Col xs="12">
-                            <Button size="sm" color="primary" className="animation-on-hover m-0">Apply</Button>
                           </Col>
                         </Row>
                       </Collapse>
@@ -237,7 +241,7 @@ class Mapa extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     />
                     {
-                      this.state.records.filter(this.smallTimestamp).filter(this.bigTimestamp).map(record => {
+                      this.state.records.filter(this.smallTimestamp).filter(this.bigTimestamp).filter(this.smallSpeed).filter(this.bigSpeed).filter(this.reduceBus).map(record => {
                         return(
                           <Marker position={[record["latitude"], record["longitude"]]} icon={pointerIcon}>
                             <Popup>
@@ -248,7 +252,7 @@ class Mapa extends React.Component {
                                 <br />
                                 <b>Timestamp:</b> {record["timestamp"]}
                                 <br />
-                                <hr />
+                                <b>Speed:</b> {record["speed"]}
                               </div>                            
                             </Popup>
                           </Marker>
